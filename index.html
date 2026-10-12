@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yu Chi Chen</title>
+<meta name="description" content="Undergraduate student at National Chengchi University.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fafaf9;
+    --card: #ffffff;
+    --text: #1c1917;
+    --muted: #57534e;
+    --soft: #a8a29e;
+    --border: #e7e5e4;
+    --accent: #b45309;
+    --accent-soft: #fef3c7;
+    --chip: #f5f5f4;
+    --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.04);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0c0a09;
+    --card: #1c1917;
+    --text: #f5f5f4;
+    --muted: #d6d3d1;
+    --soft: #78716c;
+    --border: #292524;
+    --accent: #f59e0b;
+    --accent-soft: #451a03;
+    --chip: #292524;
+    --shadow: 0 1px 3px rgba(0,0,0,.4);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Inter", system-ui, -apple-system, "Noto Sans TC", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    transition: background .3s, color .3s;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ---------- Nav ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav {
+    max-width: 1100px; margin: 0 auto; padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .brand { font-family: "Source Serif 4", serif; font-weight: 700; font-size: 1.2rem; color: var(--text); }
+  .brand:hover { text-decoration: none; color: var(--accent); }
+  .nav-links { display: flex; gap: 4px; list-style: none; align-items: center; }
+  .nav-links a {
+    color: var(--muted); font-size: .92rem; font-weight: 500;
+    padding: 6px 12px; border-radius: 8px; transition: .2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--accent); background: var(--accent-soft); text-decoration: none; }
+  .icon-btn {
+    background: var(--chip); border: 1px solid var(--border); color: var(--text);
+    width: 38px; height: 38px; border-radius: 10px; cursor: pointer;
+    display: grid; place-items: center; font-size: 1.05rem; transition: .2s;
+  }
+  .icon-btn:hover { border-color: var(--accent); transform: rotate(-10deg); }
+  .menu-btn { display: none; }
+
+  /* ---------- Layout ---------- */
+  main {
+    max-width: 1100px; margin: 0 auto; padding: 40px 20px 60px;
+    display: grid; grid-template-columns: 300px 1fr; gap: 48px;
+  }
+  aside { position: sticky; top: 90px; align-self: start; text-align: center; }
+  .avatar {
+    width: 180px; height: 180px; border-radius: 50%; object-fit: cover;
+    border: 4px solid var(--card); box-shadow: var(--shadow); margin: 0 auto 18px;
+    display: block; cursor: pointer; transition: transform .4s;
+  }
+  .avatar:hover { transform: scale(1.04) rotate(2deg); }
+  .avatar-fallback {
+    width: 180px; height: 180px; border-radius: 50%; margin: 0 auto 18px;
+    background: var(--accent); color: #fff; font-size: 3.5rem; font-weight: 700;
+    display: grid; place-items: center; cursor: pointer;
+  }
+  aside h1 { font-family: "Source Serif 4", serif; font-size: 1.8rem; line-height: 1.2; }
+  .typed { color: var(--accent); font-weight: 600; min-height: 1.7em; margin-top: 6px; }
+  .typed::after { content: "|"; animation: blink 1s steps(1) infinite; margin-left: 2px; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .affil { color: var(--muted); font-size: .95rem; }
+  .socials { display: flex; justify-content: center; gap: 10px; margin: 16px 0; }
+  .socials a {
+    width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center;
+    background: var(--chip); border: 1px solid var(--border); color: var(--muted); transition: .2s;
+  }
+  .socials a:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+  .socials svg { width: 18px; height: 18px; fill: currentColor; }
+
+  .side-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px; text-align: left; box-shadow: var(--shadow); margin-top: 8px;
+  }
+  .side-card h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--soft); margin-bottom: 10px; }
+  .side-card .hint { font-size: .75rem; color: var(--soft); margin-top: 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    background: var(--chip); border: 1px solid var(--border); color: var(--muted);
+    font-size: .8rem; padding: 4px 10px; border-radius: 999px; cursor: pointer;
+    font-family: inherit; transition: .2s;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--accent); }
+  .chip.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .like-btn {
+    margin-top: 16px; width: 100%; padding: 10px; border-radius: 12px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--card); color: var(--text);
+    font: 600 .95rem inherit; font-family: inherit; position: relative; transition: .2s;
+  }
+  .like-btn:hover { border-color: #e11d48; }
+  .like-btn.liked { background: #fff1f2; border-color: #e11d48; color: #e11d48; }
+  :root[data-theme="dark"] .like-btn.liked { background: #4c0519; }
+  .heart-pop {
+    position: fixed; pointer-events: none; font-size: 1.2rem; z-index: 999;
+    animation: floatUp 1s ease-out forwards;
+  }
+  @keyframes floatUp { to { transform: translate(var(--dx), -90px) scale(1.4); opacity: 0; } }
+
+  /* ---------- Sections ---------- */
+  section { margin-bottom: 56px; scroll-margin-top: 90px; }
+  section h2 {
+    font-family: "Source Serif 4", serif; font-size: 1.6rem; margin-bottom: 18px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .about p { color: var(--muted); margin-bottom: 12px; }
+  .reveal { opacity: 0; transform: translateY(20px); transition: .7s ease; }
+  .reveal.show { opacity: 1; transform: none; }
+
+  .pub-tools { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+  .search {
+    flex: 1; min-width: 200px; padding: 10px 14px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--card); color: var(--text); font: inherit; font-size: .92rem;
+  }
+  .search:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .filter-status { font-size: .85rem; color: var(--soft); margin-bottom: 12px; min-height: 1.4em; }
+  .filter-status button { background: none; border: none; color: var(--accent); cursor: pointer; font: inherit; text-decoration: underline; }
+
+  .pub {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px 22px; margin-bottom: 14px; box-shadow: var(--shadow);
+    transition: transform .25s, border-color .25s, opacity .3s;
+    border-left: 4px solid var(--accent);
+  }
+  .pub:hover { transform: translateY(-3px); }
+  .pub.hidden { display: none; }
+  .pub h3 { font-size: 1.05rem; line-height: 1.45; margin-bottom: 6px; }
+  .pub .authors { color: var(--muted); font-size: .9rem; }
+  .pub .authors b { color: var(--text); }
+  .pub .venue { display: inline-block; font-size: .78rem; font-weight: 600; margin: 8px 0; padding: 2px 10px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); }
+  .pub .desc { color: var(--muted); font-size: .92rem; }
+  .pub .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .pub .tags span { font-size: .72rem; color: var(--soft); border: 1px dashed var(--border); padding: 1px 8px; border-radius: 999px; }
+  .pub-actions { display: flex; gap: 8px; margin-top: 12px; }
+  .pub-actions button {
+    font: 500 .8rem inherit; font-family: inherit; padding: 5px 12px; border-radius: 8px; cursor: pointer;
+    background: var(--chip); color: var(--muted); border: 1px solid var(--border); transition: .2s;
+  }
+  .pub-actions button:hover, .pub-actions button.open { color: var(--accent); border-color: var(--accent); }
+  .bib {
+    max-height: 0; overflow: hidden; transition: max-height .35s ease;
+  }
+  .bib.open { max-height: 400px; }
+  .bib pre {
+    margin-top: 12px; background: var(--chip); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px; font-size: .78rem; overflow-x: auto; position: relative; color: var(--text);
+  }
+  .copy-btn {
+    position: absolute; top: 8px; right: 8px; font: 500 .72rem inherit; font-family: inherit;
+    padding: 3px 9px; border-radius: 6px; border: 1px solid var(--border);
+    background: var(--card); color: var(--muted); cursor: pointer;
+  }
+  .empty { text-align: center; color: var(--soft); padding: 30px; border: 1px dashed var(--border); border-radius: 14px; display: none; }
+
+  .timeline { border-left: 2px solid var(--border); padding-left: 22px; }
+  .news-item { position: relative; margin-bottom: 18px; }
+  .news-item::before {
+    content: ""; position: absolute; left: -29px; top: 7px; width: 12px; height: 12px;
+    border-radius: 50%; background: var(--accent); border: 3px solid var(--bg);
+  }
+  .news-item time { font-size: .8rem; font-weight: 600; color: var(--accent); }
+  .news-item p { color: var(--muted); }
+
+  footer { text-align: center; color: var(--soft); font-size: .82rem; padding: 30px 20px; border-top: 1px solid var(--border); }
+
+  .to-top {
+    position: fixed; right: 20px; bottom: 20px; opacity: 0; pointer-events: none; transition: .3s;
+  }
+  .to-top.show { opacity: 1; pointer-events: auto; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, 80px);
+    background: var(--text); color: var(--bg); padding: 10px 18px; border-radius: 10px;
+    font-size: .9rem; transition: .35s; z-index: 200; opacity: 0;
+  }
+  .toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+  .confetti { position: fixed; top: -10px; width: 8px; height: 14px; z-index: 300; pointer-events: none; animation: fall linear forwards; }
+  @keyframes fall { to { transform: translateY(105vh) rotate(720deg); } }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 860px) {
+    main { grid-template-columns: 1fr; gap: 32px; padding-top: 28px; }
+    aside { position: static; }
+    .menu-btn { display: grid; }
+    .nav-links {
+      position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch;
+      background: var(--bg); border-bottom: 1px solid var(--border); padding: 8px 16px 14px;
+      display: none;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links .theme-li { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a class="brand" href="#about">Yu Chi Chen</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#news">News</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li class="theme-li"><button class="icon-btn" id="themeBtn" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button></li>
+    </ul>
+    <div style="display:flex;gap:8px">
+      <button class="icon-btn menu-btn" id="themeBtnMobile" aria-label="Toggle dark mode">🌙</button>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- ===== Profile sidebar ===== -->
+  <aside>
+    <img class="avatar" id="avatar" src="bio.jpg" alt="Yu Chi Chen"
+         onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='https://ycchenn.github.io/bio.jpg';}else{this.outerHTML='<div class=&quot;avatar-fallback&quot; id=&quot;avatar&quot;>YC</div>';}">
+    <h1>Yu Chi Chen</h1>
+    <div class="typed" id="typed"></div>
+    <div class="affil">National Chengchi University</div>
+
+    <div class="socials">
+      <a href="https://github.com/ycchenn" target="_blank" rel="noopener" title="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.9 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.3-3.2-.1-.3-.6-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.7 1.7.2 2.9.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/yuchichen2005/" target="_blank" rel="noopener" title="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.2ZM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2ZM7.1 20.5H3.5V9h3.6v11.5ZM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7C24 .8 23.2 0 22.2 0Z"/></svg>
+      </a>
+    </div>
+
+    <div class="side-card">
+      <h3>Research Interests</h3>
+      <div class="chips" id="interestChips"></div>
+      <p class="hint">💡 Click an interest to filter publications</p>
+    </div>
+
+    <button class="like-btn" id="likeBtn">🤍 Like <span id="likeCount">0</span></button>
+  </aside>
+
+  <!-- ===== Content ===== -->
+  <div>
+    <section id="about" class="about reveal">
+      <h2>About</h2>
+      <p>I am currently a student in the <a href="https://mis2.nccu.edu.tw/" target="_blank" rel="noopener">Department of Management Information Systems</a> at <a href="https://www.nccu.edu.tw/" target="_blank" rel="noopener">National Chengchi University</a>, with a double major in the <a href="https://dct.nccu.edu.tw/" target="_blank" rel="noopener">Degree Program of Digital Content and Technologies</a>.</p>
+      <p>In addition, I am pursuing the <a href="https://commerce.nccu.edu.tw/zh_tw/feature/feature6/DProgram2" target="_blank" rel="noopener">Program in Operations and Supply Chain Management</a> and the <a href="https://acct.nccu.edu.tw/zh_tw/Programs/CIMA" target="_blank" rel="noopener">Professional Program in Management Accounting</a> at National Chengchi University.</p>
+      <p>My research focuses primarily on artificial intelligence applications, human-computer interaction, and data-driven system design.</p>
+    </section>
+
+    <section id="publications" class="reveal">
+      <h2>Publications <span style="font:500 .85rem Inter,sans-serif;color:var(--soft)" id="pubCount"></span></h2>
+      <div class="pub-tools">
+        <input class="search" id="search" type="search" placeholder="🔍 Search title, author, or keyword…">
+      </div>
+      <div class="filter-status" id="filterStatus"></div>
+      <div id="pubList"></div>
+      <div class="empty" id="empty">No publications match. Try another keyword 🙂</div>
+    </section>
+
+    <section id="news" class="reveal">
+      <h2>News</h2>
+      <div class="timeline" id="newsList"></div>
+    </section>
+
+    <section id="contact" class="reveal">
+      <h2>Contact</h2>
+      <p style="color:var(--muted)">Feel free to reach out via <a href="https://www.linkedin.com/in/yuchichen2005/" target="_blank" rel="noopener">LinkedIn</a> or check out my code on <a href="https://github.com/ycchenn" target="_blank" rel="noopener">GitHub</a>.</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  © <span id="year"></span> Yu Chi Chen · Single-file rebuild inspired by PRISM · Built with Vibe Coding 🚀
+</footer>
+
+<button class="icon-btn to-top" id="toTop" aria-label="Back to top">↑</button>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= DATA ================= */
+const roles = ["Undergraduate Student", "MIS × Digital Content", "HCI Researcher", "AI for Social Good"];
+
+const interests = [
+  "LLM-based Misinformation Detection",
+  "Human-AI Interaction",
+  "Data-Driven Decision Support Systems",
+  "RAG for Social Good",
+  "Information System Design with Transparency"
+];
+
+const pubs = [
+  {
+    key: "chen2026transparency",
+    title: "Investigating the Impact of Interface Transparency on Audience Agency through a Cross-Modal Audio-Visual Fact-Checking System",
+    authors: ["YC Chen"],
+    venue: "Under Review", year: 2026,
+    desc: "Investigates how interface transparency affects audience agency and cognitive load using a cross-modal AI fact-checking system.",
+    tags: ["LLM-based Misinformation Detection", "Human-AI Interaction", "Information System Design with Transparency"]
+  },
+  {
+    key: "chen2026classroom",
+    title: "Digitalizing Classroom Management: Design and Implementation of an Audit Trail-Oriented Scoring System",
+    authors: ["YC Chen", "CY Lee", "JH Chen"],
+    venue: "Under Review", year: 2026,
+    desc: "Presents a web-based honor-point scoring system with audit trails and GenAI integration for elementary classroom management.",
+    tags: ["Information System Design with Transparency", "Data-Driven Decision Support Systems"]
+  },
+  {
+    key: "chen2026farmer",
+    title: "A Generative AI Voice Assistant for Smallholder Farmers — Bridging Farm Record-Keeping and Brand Storytelling with Open Government Data",
+    authors: ["YC Chen", "CY Kuo", "GX Zheng"],
+    venue: "Under Review", year: 2026,
+    desc: "Introduces a generative AI voice assistant that streamlines farm record-keeping and brand copywriting using open government data.",
+    tags: ["RAG for Social Good", "Human-AI Interaction", "Data-Driven Decision Support Systems"]
+  }
+];
+
+const news = [
+  { date: "2023-09", text: "Starting my undergraduate journey at NCCU! 🎓" }
+];
+
+/* ================= HELPERS ================= */
+const $ = s => document.querySelector(s);
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+};
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("show"), 1800);
+}
+
+/* ================= 1. DARK MODE ================= */
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  const icon = theme === "dark" ? "☀️" : "🌙";
+  $("#themeBtn").textContent = icon; $("#themeBtnMobile").textContent = icon;
+}
+let theme = store.get("theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+applyTheme(theme);
+function toggleTheme() {
+  theme = theme === "dark" ? "light" : "dark";
+  applyTheme(theme); store.set("theme", theme);
+}
+$("#themeBtn").onclick = toggleTheme;
+$("#themeBtnMobile").onclick = toggleTheme;
+
+/* ================= 2. TYPING EFFECT ================= */
+(function typeLoop() {
+  const el = $("#typed"); let r = 0, i = 0, deleting = false;
+  (function tick() {
+    const word = roles[r];
+    el.textContent = word.slice(0, i);
+    if (!deleting && i < word.length) { i++; setTimeout(tick, 80); }
+    else if (!deleting) { deleting = true; setTimeout(tick, 1600); }
+    else if (i > 0) { i--; setTimeout(tick, 40); }
+    else { deleting = false; r = (r + 1) % roles.length; setTimeout(tick, 300); }
+  })();
+})();
+
+/* ================= 3. PUBLICATIONS: render + search + filter ================= */
+let activeInterest = null;
+
+function bibtex(p) {
+  return `@article{${p.key},\n  title  = {${p.title}},\n  author = {${p.authors.join(" and ")}},\n  note   = {${p.venue}},\n  year   = {${p.year}}\n}`;
+}
+
+function renderPubs() {
+  $("#pubList").innerHTML = pubs.map((p, idx) => `
+    <article class="pub" data-idx="${idx}">
+      <h3>${p.title}</h3>
+      <div class="authors">${p.authors.map(a => a === "YC Chen" ? "<b>" + a + "</b>" : a).join(", ")}</div>
+      <span class="venue">${p.venue} · ${p.year}</span>
+      <p class="desc">${p.desc}</p>
+      <div class="tags">${p.tags.map(t => `<span>${t}</span>`).join("")}</div>
+      <div class="pub-actions">
+        <button data-act="bib">BibTeX</button>
+      </div>
+      <div class="bib"><pre><button class="copy-btn">Copy</button><code>${bibtex(p)}</code></pre></div>
+    </article>`).join("");
+}
+
+function applyFilters() {
+  const q = $("#search").value.trim().toLowerCase();
+  let shown = 0;
+  document.querySelectorAll(".pub").forEach(el => {
+    const p = pubs[el.dataset.idx];
+    const hay = (p.title + " " + p.authors.join(" ") + " " + p.desc + " " + p.tags.join(" ")).toLowerCase();
+    const ok = (!q || hay.includes(q)) && (!activeInterest || p.tags.includes(activeInterest));
+    el.classList.toggle("hidden", !ok);
+    if (ok) shown++;
+  });
+  $("#pubCount").textContent = `${shown} / ${pubs.length}`;
+  $("#empty").style.display = shown ? "none" : "block";
+  $("#filterStatus").innerHTML = activeInterest
+    ? `Filtering by <b>${activeInterest}</b> · <button id="clearFilter">clear</button>` : "";
+  const c = $("#clearFilter"); if (c) c.onclick = () => setInterest(null);
+}
+
+function setInterest(name) {
+  activeInterest = activeInterest === name ? null : name;
+  document.querySelectorAll(".chip").forEach(ch => ch.classList.toggle("on", ch.textContent === activeInterest));
+  applyFilters();
+  if (activeInterest) $("#publications").scrollIntoView({ behavior: "smooth" });
+}
+
+$("#interestChips").innerHTML = interests.map(i => `<button class="chip">${i}</button>`).join("");
+$("#interestChips").addEventListener("click", e => { if (e.target.classList.contains("chip")) setInterest(e.target.textContent); });
+$("#search").addEventListener("input", applyFilters);
+
+$("#pubList").addEventListener("click", e => {
+  const pub = e.target.closest(".pub"); if (!pub) return;
+  if (e.target.dataset.act === "bib") {
+    e.target.classList.toggle("open");
+    pub.querySelector(".bib").classList.toggle("open");
+  }
+  if (e.target.classList.contains("copy-btn")) {
+    const text = bibtex(pubs[pub.dataset.idx]);
+    const done = () => { e.target.textContent = "Copied ✓"; toast("BibTeX copied to clipboard"); setTimeout(() => e.target.textContent = "Copy", 1500); };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done).catch(() => toast("Copy failed — please select manually"));
+    else toast("Copy not supported — please select manually");
+  }
+});
+renderPubs(); applyFilters();
+
+/* ================= 4. NEWS ================= */
+$("#newsList").innerHTML = news.map(n => `<div class="news-item"><time>${n.date}</time><p>${n.text}</p></div>`).join("");
+
+/* ================= 5. LIKE BUTTON ================= */
+let likes = parseInt(store.get("likes") || "0", 10);
+let liked = store.get("liked") === "1";
+function renderLike() {
+  $("#likeCount").textContent = likes;
+  $("#likeBtn").classList.toggle("liked", liked);
+  $("#likeBtn").firstChild.textContent = liked ? "❤️ Liked " : "🤍 Like ";
+}
+$("#likeBtn").addEventListener("click", e => {
+  liked = !liked; likes += liked ? 1 : -1;
+  store.set("likes", likes); store.set("liked", liked ? "1" : "0");
+  renderLike();
+  if (liked) for (let k = 0; k < 6; k++) {
+    const h = document.createElement("span");
+    h.className = "heart-pop"; h.textContent = ["❤️","💖","✨"][k % 3];
+    h.style.left = e.clientX + "px"; h.style.top = e.clientY + "px";
+    h.style.setProperty("--dx", (Math.random() * 80 - 40) + "px");
+    document.body.appendChild(h); setTimeout(() => h.remove(), 1000);
+  }
+});
+renderLike();
+
+/* ================= 6. EASTER EGG: click avatar 5 times ================= */
+let clicks = 0, clickTimer;
+document.addEventListener("click", e => {
+  if (e.target.id !== "avatar") return;
+  clicks++; clearTimeout(clickTimer);
+  clickTimer = setTimeout(() => clicks = 0, 1200);
+  if (clicks >= 5) {
+    clicks = 0; toast("🎉 You found the easter egg! Thanks for visiting!");
+    const colors = ["#f59e0b", "#e11d48", "#10b981", "#3b82f6", "#8b5cf6"];
+    for (let k = 0; k < 60; k++) {
+      const c = document.createElement("div");
+      c.className = "confetti";
+      c.style.left = Math.random() * 100 + "vw";
+      c.style.background = colors[k % colors.length];
+      c.style.animationDuration = (1.8 + Math.random() * 1.5) + "s";
+      c.style.animationDelay = Math.random() * .4 + "s";
+      document.body.appendChild(c); setTimeout(() => c.remove(), 4000);
+    }
+  }
+});
+
+/* ================= 7. NAV: mobile menu, active link, scroll reveal, back to top ================= */
+$("#menuBtn").onclick = () => $("#navLinks").classList.toggle("open");
+document.querySelectorAll(".nav-links a").forEach(a => a.addEventListener("click", () => $("#navLinks").classList.remove("open")));
+
+const sections = [...document.querySelectorAll("section")];
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => { if (en.isIntersecting) en.target.classList.add("show"); });
+}, { threshold: .12 });
+sections.forEach(s => io.observe(s));
+
+window.addEventListener("scroll", () => {
+  $("#toTop").classList.toggle("show", scrollY > 400);
+  let current = sections[0].id;
+  sections.forEach(s => { if (scrollY >= s.offsetTop - 140) current = s.id; });
+  document.querySelectorAll(".nav-links a").forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + current));
+});
+$("#toTop").onclick = () => scrollTo({ top: 0, behavior: "smooth" });
+
+$("#year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
