@@ -239,6 +239,11 @@
   }
   .pub-meta .conf { color: var(--text); }
 
+  .details { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s ease; }
+  .details > div { overflow: hidden; }
+  .details.open { grid-template-rows: 1fr; }
+  .details .pub-meta { margin-top: 6px; }
+
 </style>
 </head>
 <body>
@@ -426,14 +431,19 @@ function renderPubs() {
     <article class="pub" data-idx="${idx}">
       <h3>${p.title}</h3>
       <div class="authors">${p.authors.map(a => a.startsWith("Yu-Chi Chen") ? "<b>" + a + "</b>" : a).join(", ")}</div>
-      <div class="pub-meta">
-        ${p.conference ? `<span class="conf"> ${p.conference}</span>` : ""}
-        <span class="venue">${p.venue} · ${p.year}</span>
-        ${p.role ? `<span class="role"> ${p.role}</span>` : ""}
-      </div>
-      <p class="desc">${p.desc}</p>
-      <div class="tags">${p.tags.map(t => `<span>${t}</span>`).join("")}</div>
+      <span class="venue">${p.venue} · ${p.year}</span>
+
+      <div class="details"><div>
+        <div class="pub-meta">
+          ${p.conference ? `<span class="conf">🏛️ ${p.conference}</span>` : ""}
+          ${p.role ? `<span class="role">👤 ${p.role}</span>` : ""}
+        </div>
+        <p class="desc">${p.desc}</p>
+        <div class="tags">${p.tags.map(t => `<span>${t}</span>`).join("")}</div>
+      </div></div>
+
       <div class="pub-actions">
+        <button data-act="more">Details ▾</button>
         <button data-act="bib">BibTeX</button>
       </div>
       <div class="bib"><pre><button class="copy-btn">Copy</button><code>${bibtex(p)}</code></pre></div>
@@ -470,6 +480,12 @@ $("#search").addEventListener("input", applyFilters);
 
 $("#pubList").addEventListener("click", e => {
   const pub = e.target.closest(".pub"); if (!pub) return;
+  if (e.target.dataset.act === "more") {
+    const d = pub.querySelector(".details");
+    const open = d.classList.toggle("open");
+    e.target.classList.toggle("open", open);
+    e.target.textContent = open ? "Less ▴" : "Details ▾";
+  }
   if (e.target.dataset.act === "bib") {
     e.target.classList.toggle("open");
     pub.querySelector(".bib").classList.toggle("open");
