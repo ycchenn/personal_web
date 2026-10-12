@@ -230,7 +230,15 @@
   .bib pre { white-space: pre-wrap; word-break: break-word; }
   .pub h3, .about p, .desc { overflow-wrap: anywhere; }
   img, svg { max-width: 100%; }
-  
+
+    .pub-meta { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin: 8px 0; }
+  .pub-meta .venue { margin: 0; }
+  .pub-meta .conf, .pub-meta .role {
+    font-size: .78rem; font-weight: 600; padding: 2px 10px; border-radius: 6px;
+    border: 1px solid var(--border); background: var(--chip); color: var(--muted);
+  }
+  .pub-meta .conf { color: var(--text); }
+
 </style>
 </head>
 <body>
@@ -322,37 +330,44 @@
 const roles = ["Undergraduate Student", "MIS × Digital Content", "HCI Researcher", "AI for Social Good"];
 
 const interests = [
-  "LLM-based Misinformation Detection",
   "Human-AI Interaction",
-  "Data-Driven Decision Support Systems",
+  "Multimodal LLMs",
   "RAG for Social Good",
-  "Information System Design with Transparency"
+  "Agentic AI",
+  "EduTech",
+  "Data Governance"
 ];
 
 const pubs = [
   {
     key: "chen2026transparency",
-    title: "Investigating the Impact of Interface Transparency on Audience Agency through a Cross-Modal Audio-Visual Fact-Checking System",
-    authors: ["YC Chen"],
-    venue: "Under Review", year: 2026,
-    desc: "Investigates how interface transparency affects audience agency and cognitive load using a cross-modal AI fact-checking system.",
-    tags: ["LLM-based Misinformation Detection", "Human-AI Interaction", "Information System Design with Transparency"]
+    title: "班級經營數位化：一套審計追蹤導向的計分系統設計與導入案例",
+    authors: ["Yu-Chi Chen"],
+    venue: "Accepted",year: 2026,
+    role: "First Author · Oral Presentationer",
+    conference: "TANET 2026（Taiwan Academic Network Conference, 臺灣網際網路研討會）",
+    desc: "This study utilizes the Design Science Research (DSR) methodology to develop a digital classroom honor roll system. By integrating audit trails, real-time data synchronization, and data governance mechanisms, the system addresses long-standing challenges in traditional classroom grading, such as records preservation and dispute evidence. The system was implemented in an elementary school classroom for one full semester, accumulating 1,195 grading records, with its effectiveness validated and recognized by frontline teachers.",
+    tags: ["EduTech", "Human-AI Interaction", "Data Governance", "Digital Transformation"]
   },
   {
     key: "chen2026classroom",
-    title: "Digitalizing Classroom Management: Design and Implementation of an Audit Trail-Oriented Scoring System",
-    authors: ["YC Chen", "CY Lee", "JH Chen"],
+    title: "Multimodal Content Replanning for Lecture Video Reconstruction: Integrating ASR, OCR, and Handwritten Annotation Regeneration",
+    authors: ["Jie-Shiuan Gong*", "Yu-Chi Chen*", "Yen-Chen Tung*", "Guang-Xi Zheng*", "Shun-Wen Hsiao"],
     venue: "Under Review", year: 2026,
-    desc: "Presents a web-based honor-point scoring system with audit trails and GenAI integration for elementary classroom management.",
-    tags: ["Information System Design with Transparency", "Data-Driven Decision Support Systems"]
+    role: "First Author · Oral Presentationer",
+    conference: "IEEE ISM 2026",
+    desc: "This study integrates ASR, OCR, and Multimodal LLMs to automatically reconstruct instructional videos with structured content and handwritten notes. Utilizing LLM-as-a-Judge evaluation, the system yields a 94.56% core knowledge retention rate, outperforming baseline methods by up to 11.6 percentage points.",
+    tags: ["Multimodal LLMs", "Human-AI Interaction", "EduTech", "LLM-as-a-Judge"]
   },
   {
     key: "chen2026farmer",
-    title: "A Generative AI Voice Assistant for Smallholder Farmers — Bridging Farm Record-Keeping and Brand Storytelling with Open Government Data",
-    authors: ["YC Chen", "CY Kuo", "GX Zheng"],
+    title: "A RAG-Powered Agentic Chatbot Combining Farm Record-Keeping and Brand Narrative with Open Government Data for Taiwanese Smallholder Farmers",
+    authors: ["Yu-Chi Chen", "Guang-Xi Zheng", "Chen-Yu Kuo", "Chih-Hsun Wu"],
     venue: "Under Review", year: 2026,
-    desc: "Introduces a generative AI voice assistant that streamlines farm record-keeping and brand copywriting using open government data.",
-    tags: ["RAG for Social Good", "Human-AI Interaction", "Data-Driven Decision Support Systems"]
+    role: "Co-First Author",
+    conference: "ICAI TECH 2026（International Conference on AI and Technological Solutions；IEEE Co-Sponsored）",
+    desc: "Targeting the digital divide of smallholder farmers, this study combines RAG, Agentic AI, ASR, and LLMs to convert daily speech into farming logs, certification drafts, and marketing content, while leveraging official data retrieval and evidence citation to boost information credibility.",
+    tags: ["RAG for Social Good", "Agentic AI", "Human-AI Interaction", "Information Reliability"]
   }
 ];
 
@@ -410,8 +425,12 @@ function renderPubs() {
   $("#pubList").innerHTML = pubs.map((p, idx) => `
     <article class="pub" data-idx="${idx}">
       <h3>${p.title}</h3>
-      <div class="authors">${p.authors.map(a => a === "YC Chen" ? "<b>" + a + "</b>" : a).join(", ")}</div>
-      <span class="venue">${p.venue} · ${p.year}</span>
+      <div class="authors">${p.authors.map(a => a.startsWith("Yu-Chi Chen") ? "<b>" + a + "</b>" : a).join(", ")}</div>
+      <div class="pub-meta">
+        ${p.conference ? `<span class="conf"> ${p.conference}</span>` : ""}
+        <span class="venue">${p.venue} · ${p.year}</span>
+        ${p.role ? `<span class="role"> ${p.role}</span>` : ""}
+      </div>
       <p class="desc">${p.desc}</p>
       <div class="tags">${p.tags.map(t => `<span>${t}</span>`).join("")}</div>
       <div class="pub-actions">
