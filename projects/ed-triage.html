@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI-Assisted ED Triage Simulation · Yu Chi Chen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-page="project" data-slug="ed-triage">
+
+<header>
+  <nav class="nav">
+    <a class="brand" href="../index.html">Yu Chi Chen</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html#about">About</a></li>
+      <li><a class="active" href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#publications">Publications</a></li>
+      <li><a href="../index.html#news">News</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+      <li class="theme-li"><button class="icon-btn" id="themeBtn" aria-label="Toggle dark mode">🌙</button></li>
+    </ul>
+    <div style="display:flex;gap:8px">
+      <button class="icon-btn menu-btn" id="themeBtnMobile" aria-label="Toggle dark mode">🌙</button>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </nav>
+</header>
+
+<main class="page">
+  <a class="back" href="../index.html#projects">← All projects</a>
+  <div id="projectHero"></div>  <!-- 由 assets/js/project.js 依 data/projects.js 渲染 -->
+
+  <section id="motivation" class="reveal">
+    <h2>Why I built it</h2>
+    <p>When an AI scores each arriving emergency patient's severity, the hospital has to decide <b>which scores a human should double-check</b>. Reviewing more patients catches AI mistakes on truly critical cases — but it uses the same staff time needed to treat everyone else.</p>
+  </section>
+
+  <section id="what-i-built" class="reveal">
+    <h2>What I built</h2>
+    <p>An operations-research study built around a discrete-event simulation of an emergency department.</p>
+    <ul>
+      <li><b>Simulation core</b> — SimPy model with time-varying Poisson arrivals, a noisy AI severity score with confidence, and a shared staff pool for review and treatment.</li>
+      <li><b>Experiments</b> — 40 replications per policy, a threshold sweep that traces the safety–workload trade-off, and sensitivity analysis on AI accuracy.</li>
+      <li><b>Interactive dashboard</b> — a Streamlit app to adjust AI accuracy, staffing, and threshold and see results update live.</li>
+    </ul>
+    <table>
+      <tr><th>Policy</th><th>Rule</th></tr>
+      <tr><td>No review</td><td>Always trust the AI score</td></tr>
+      <tr><td>Review all</td><td>Every patient gets a manual review</td></tr>
+      <tr><td>Fixed τ</td><td>Review when a risk score exceeds a constant threshold</td></tr>
+      <tr><td><b>Dynamic heuristic</b></td><td>Same rule, but the threshold adapts to real-time staff congestion</td></tr>
+    </table>
+  </section>
+
+  <section id="highlights" class="reveal">
+    <h2>Technical highlights</h2>
+    <ul>
+      <li><b>Boundary-weighted risk score</b> — <code>(1 − confidence) × w(ai_severity)</code>, where <code>w</code> up-weights scores near the critical / non-critical boundary, where missed emergencies hide.</li>
+      <li><b>Congestion-aware threshold</b> — reviews more thoroughly when staff are idle and more selectively when busy.</li>
+      <li><b>Reproducible</b> — synthetic data, tests, and a single script that regenerates every figure.</li>
+    </ul>
+  </section>
+
+  <section id="results" class="reveal">
+    <h2>Results</h2>
+    <div class="stat-row">
+      <div class="stat"><b>≈0</b><span>harmful misses, matching the safe fixed threshold</span></div>
+      <div class="stat"><b>~31%</b><span>less reviewer time</span></div>
+      <div class="stat"><b>~27%</b><span>shorter average patient wait</span></div>
+    </div>
+    <p>Across 40 simulated 12-hour shifts, the dynamic heuristic kept safety level with a conservative fixed threshold while concentrating review effort in quiet periods.</p>
+  </section>
+
+  <section id="reflection" class="reveal">
+    <h2>What I learned</h2>
+    <p>Human–AI collaboration is a resource-allocation problem as much as a modelling one: the best policy isn't "trust the AI" or "check everything," but deciding <i>when</i> human attention is worth spending. All data here is synthetic, so the next step would be calibrating against real ED arrival patterns.</p>
+  </section>
+
+  <nav class="pager" id="pager"></nav>  <!-- 上一篇 / 下一篇，自動產生 -->
+</main>
+
+<footer>© <span id="year"></span> Yu Chi Chen</footer>
+<button class="icon-btn to-top" id="toTop" aria-label="Back to top">↑</button>
+<div class="toast" id="toast"></div>
+
+<script src="../data/projects.js"></script>
+<script src="../assets/js/site.js"></script>
+<script src="../assets/js/project.js"></script>
+</body>
+</html>

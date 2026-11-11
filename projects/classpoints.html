@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HelpingMyMama: Classroom Point Record System · Yu Chi Chen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-page="project" data-slug="classpoints">
+
+<header>
+  <nav class="nav">
+    <a class="brand" href="../index.html">Yu Chi Chen</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html#about">About</a></li>
+      <li><a class="active" href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#publications">Publications</a></li>
+      <li><a href="../index.html#news">News</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+      <li class="theme-li"><button class="icon-btn" id="themeBtn" aria-label="Toggle dark mode">🌙</button></li>
+    </ul>
+    <div style="display:flex;gap:8px">
+      <button class="icon-btn menu-btn" id="themeBtnMobile" aria-label="Toggle dark mode">🌙</button>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </nav>
+</header>
+
+<main class="page">
+  <a class="back" href="../index.html#projects">← All projects</a>
+  <div id="projectHero"></div>  <!-- 由 assets/js/project.js 依 data/projects.js 渲染 -->
+
+  <section id="motivation" class="reveal">
+    <h2>Why I built it</h2>
+    <p>My mother teaches elementary school, and her class ran on a paper tally of merit points. The recurring problem was <b>"merit disputes"</b>: students contested their scores, and a paper tally offered no record of who earned which point, when, or why.</p>
+    <p>I treated her as the primary stakeholder — interviewing her to define requirements — and built a system where every point change leaves evidence.</p>
+  </section>
+
+  <section id="what-i-built" class="reveal">
+    <h2>What I built</h2>
+    <p>A mobile-first web app a teacher can operate while walking around a busy classroom.</p>
+    <ul>
+      <li><b>Real-time leaderboard</b> — Firestore <code>onSnapshot</code> listeners update the board with no refresh.</li>
+      <li><b>Batch point adjustments</b> — award or deduct points for several students in one action.</li>
+      <li><b>Weekly fresh start</b> — the view resets each week while the full-semester record stays intact for final grading.</li>
+      <li><b>Rollback</b> — undo a mistaken entry and have the balance corrected automatically.</li>
+    </ul>
+  </section>
+
+  <section id="highlights" class="reveal">
+    <h2>Technical highlights</h2>
+    <ul>
+      <li><b>Atomic writes</b> — log deletion and score correction run in a single Firestore <code>writeBatch</code>, so a balance can never drift from its history.</li>
+      <li><b>Temporal filtering instead of deletion</b> — the "weekly reset" is a query filter on timestamps, not a wipe, which keeps an audit trail.</li>
+      <li><b>Composite indexes</b> — custom indexes support sorting by points (desc) then seat number (asc).</li>
+      <li><b>Zero-server deployment</b> — Firebase as BaaS plus GitHub Pages hosting.</li>
+    </ul>
+  </section>
+
+  <section id="results" class="reveal">
+    <h2>Results</h2>
+    <div class="stat-row">
+      <div class="stat"><b>1,195</b><span>point records logged over one semester</span></div>
+      <div class="stat"><b>1</b><span>paper accepted at TANET 2026</span></div>
+    </div>
+    <p>The system was used in a real classroom for a full semester and became the case study for my TANET 2026 paper on audit-trail-oriented classroom scoring.</p>
+  </section>
+
+  <section id="reflection" class="reveal">
+    <h2>What I learned</h2>
+    <p>A system doesn't have to be complex to be valuable — it has to fit the user's actual day. The rollback and weekly-reset features both came from my mother's feedback after the first weeks of use, which taught me to ship early and let real usage decide what comes next.</p>
+  </section>
+
+  <nav class="pager" id="pager"></nav>  <!-- 上一篇 / 下一篇，自動產生 -->
+</main>
+
+<footer>© <span id="year"></span> Yu Chi Chen</footer>
+<button class="icon-btn to-top" id="toTop" aria-label="Back to top">↑</button>
+<div class="toast" id="toast"></div>
+
+<script src="../data/projects.js"></script>
+<script src="../assets/js/site.js"></script>
+<script src="../assets/js/project.js"></script>
+</body>
+</html>

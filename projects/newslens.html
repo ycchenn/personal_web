@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NewsLens: Video × News Cross-Checking · Yu Chi Chen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-page="project" data-slug="newslens">
+
+<header>
+  <nav class="nav">
+    <a class="brand" href="../index.html">Yu Chi Chen</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html#about">About</a></li>
+      <li><a class="active" href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#publications">Publications</a></li>
+      <li><a href="../index.html#news">News</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+      <li class="theme-li"><button class="icon-btn" id="themeBtn" aria-label="Toggle dark mode">🌙</button></li>
+    </ul>
+    <div style="display:flex;gap:8px">
+      <button class="icon-btn menu-btn" id="themeBtnMobile" aria-label="Toggle dark mode">🌙</button>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </nav>
+</header>
+
+<main class="page">
+  <a class="back" href="../index.html#projects">← All projects</a>
+  <div id="projectHero"></div>  <!-- 由 assets/js/project.js 依 data/projects.js 渲染 -->
+
+  <section id="motivation" class="reveal">
+    <h2>Why I built it</h2>
+    <p>People increasingly get news from YouTube videos, where claims are hard to verify against written reporting. I wanted to study how the <b>format</b> of an AI-generated summary changes how carefully readers check what a video says.</p>
+  </section>
+
+  <section id="what-i-built" class="reveal">
+    <h2>What I built</h2>
+    <p>A Gradio web app: enter a topic keyword and a YouTube URL, and it produces two versions of an analysis report.</p>
+    <ul>
+      <li><b>News crawler</b> — scrapes recent headlines and article text from Taiwanese news sites that match the keyword.</li>
+      <li><b>Timestamped transcription</b> — downloads the video audio with <code>yt-dlp</code> and transcribes it with Whisper (via Groq).</li>
+      <li><b>Mode A · Minimal summary</b> — conclusions only, simulating a low-effort reading context.</li>
+      <li><b>Mode B · Timeline verification</b> — the same analysis with VTT timestamps and transcript quotes for cross-checking.</li>
+    </ul>
+  </section>
+
+  <section id="highlights" class="reveal">
+    <h2>Technical highlights</h2>
+    <ul>
+      <li><b>Two-condition output by design</b> — one pipeline generates both A and B reports from the same inputs, so they can serve as experiment stimuli.</li>
+      <li><b>Fast inference</b> — Groq-hosted <code>whisper-large-v3</code> and <code>llama-3.1-8b-instant</code> keep end-to-end latency low.</li>
+      <li><b>Persistence</b> — crawled articles are stored in MongoDB for later inspection.</li>
+    </ul>
+  </section>
+
+  <section id="reflection" class="reveal">
+    <h2>What I learned</h2>
+    <p>Building the tool forced me to think about the reader as much as the model: the same facts presented with or without evidence invite very different levels of trust. Site-specific scrapers are also fragile, so a future version should rely on more stable news sources.</p>
+  </section>
+
+  <nav class="pager" id="pager"></nav>  <!-- 上一篇 / 下一篇，自動產生 -->
+</main>
+
+<footer>© <span id="year"></span> Yu Chi Chen</footer>
+<button class="icon-btn to-top" id="toTop" aria-label="Back to top">↑</button>
+<div class="toast" id="toast"></div>
+
+<script src="../data/projects.js"></script>
+<script src="../assets/js/site.js"></script>
+<script src="../assets/js/project.js"></script>
+</body>
+</html>

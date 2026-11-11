@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--
+  templates/project.html — 專案詳細頁模板
+  不要直接編輯這個檔案來做新頁面。請執行：
+      node tools/new-project.mjs <slug>
+  它會複製本模板到 projects/<slug>.html 並替換 {{SLUG}} / {{TITLE}}。
+  標題、標語、年份、技術、連結 都由 data/projects.js 自動渲染，
+  這個 HTML 只放「敘述內容」的 <section>。規則見 AGENTS.md §5。
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}} · Yu Chi Chen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-page="project" data-slug="{{SLUG}}">
+
+<header>
+  <nav class="nav">
+    <a class="brand" href="../index.html">Yu Chi Chen</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html#about">About</a></li>
+      <li><a class="active" href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#publications">Publications</a></li>
+      <li><a href="../index.html#news">News</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+      <li class="theme-li"><button class="icon-btn" id="themeBtn" aria-label="Toggle dark mode">🌙</button></li>
+    </ul>
+    <div style="display:flex;gap:8px">
+      <button class="icon-btn menu-btn" id="themeBtnMobile" aria-label="Toggle dark mode">🌙</button>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </nav>
+</header>
+
+<main class="page">
+  <a class="back" href="../index.html#projects">← All projects</a>
+  <div id="projectHero"></div>  <!-- 由 assets/js/project.js 依 data/projects.js 渲染 -->
+
+  <!-- ===== 必填 section（id 不可改）===== -->
+  <section id="motivation" class="reveal">
+    <h2>Why I built it</h2>
+    <p>TODO: 1–2 段。誰遇到了什麼問題？為什麼現有做法不夠好？</p>
+  </section>
+
+  <section id="what-i-built" class="reveal">
+    <h2>What I built</h2>
+    <p>TODO: 一句話總結，接著用 &lt;ul&gt; 列 3–5 個主要功能。</p>
+    <ul>
+      <li><b>Feature</b> — what it does and why it matters.</li>
+    </ul>
+  </section>
+
+  <section id="highlights" class="reveal">
+    <h2>Technical highlights</h2>
+    <ul>
+      <li><b>Decision</b> — the technical choice and the trade-off behind it.</li>
+    </ul>
+  </section>
+
+  <!-- ===== 選填 section：沒有可驗證的數字就整段刪掉，不要編造 ===== -->
+  <section id="results" class="reveal">
+    <h2>Results</h2>
+    <div class="stat-row">
+      <div class="stat"><b>0</b><span>metric description</span></div>
+    </div>
+  </section>
+
+  <section id="reflection" class="reveal">
+    <h2>What I learned</h2>
+    <p>TODO: 1 段。學到什麼、下次會怎麼做不同。</p>
+  </section>
+
+  <nav class="pager" id="pager"></nav>  <!-- 上一篇 / 下一篇，自動產生 -->
+</main>
+
+<footer>© <span id="year"></span> Yu Chi Chen</footer>
+<button class="icon-btn to-top" id="toTop" aria-label="Back to top">↑</button>
+<div class="toast" id="toast"></div>
+
+<script src="../data/projects.js"></script>
+<script src="../assets/js/site.js"></script>
+<script src="../assets/js/project.js"></script>
+</body>
+</html>
